@@ -1,0 +1,28 @@
+# Node
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime
+.env
+.env.*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+**/.env
+
+# Build
+dist/
+build/
+
+# OS
+Thumbs.db
+

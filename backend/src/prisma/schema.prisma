@@ -1,0 +1,88 @@
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  
+  // relations
+  quizAttempts QuizAttempt[]
+  instructorBookings Booking[] @relation("InstructorBookings")
+  studentBookings Booking[] @relation("StudentBookings")
+}
+
+enum Role {
+  ADMIN
+  INSTRUCTOR
+  STUDENT
+}
+
+model Course {
+  id      String   @id @default(uuid())
+  title   String
+  lessons Lesson[]
+}
+
+model Lesson {
+  id       String   @id @default(uuid())
+  title    String
+  courseId String
+  course   Course  @relation(fields: [courseId], references: [id])
+  quiz     Quiz?
+}
+
+model Quiz {
+  id        String       @id @default(uuid())
+  lessonId  String       @unique
+  lesson    Lesson       @relation(fields: [lessonId], references: [id])
+  questions Question[]
+
+  attempts QuizAttempt[]
+}
+
+
+model Question {
+  id           String   @id @default(uuid())
+  text         String
+  quizId       String
+  correctIndex Int
+  options      String[]
+  quiz         Quiz     @relation(fields: [quizId], references: [id])
+}
+
+
+model QuizAttempt {
+  id        String   @id @default(uuid())
+  userId    String
+  quizId    String
+  score     Int
+  answers   Int[]
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  quiz Quiz @relation(fields: [quizId], references: [id])
+}
+
+model Booking {
+  id           String        @id @default(uuid())
+  instructorId String
+  studentId    String
+  startTime    DateTime
+  endTime      DateTime
+  status       BookingStatus
+  createdAt    DateTime      @default(now())
+
+  instructor User @relation("InstructorBookings", fields: [instructorId], references: [id])
+  student    User @relation("StudentBookings", fields: [studentId], references: [id])
+}
+
+enum BookingStatus {
+  REQUESTED
+  APPROVED
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
