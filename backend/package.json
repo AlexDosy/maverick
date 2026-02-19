@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "prisma": {
-    "seed": "ts-node src/prisma/seed.ts"
+    "seed": "ts-node src/prisma/seed.ts",
+    "schema": "src/prisma/schema.prisma"
   },
   "scripts": {
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
