@@ -6,7 +6,7 @@
     "seed": "ts-node src/prisma/seed.ts",
     "schema": "src/prisma/schema.prisma"
   },
-  "scripts": {
+   "scripts": {
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc -p tsconfig.build.json",
     "start:prod": "node dist/main.js",
