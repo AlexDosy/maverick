@@ -1,6 +1,5 @@
 import { Test } from "@nestjs/testing";
 import { AuthService } from "./auth.service";
-import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
 import * as bcrypt from "bcrypt";
 
@@ -12,13 +11,18 @@ describe("AuthService", () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         AuthService,
-        JwtService,
         {
           provide: PrismaService,
           useValue: {
             user: {
               findUnique: jest.fn(),
             },
+          },
+        },
+        {
+          provide: "JwtService",
+          useValue: {
+            signAsync: jest.fn().mockResolvedValue("fake-jwt-token"),
           },
         },
       ],
@@ -43,8 +47,7 @@ describe("AuthService", () => {
       password: "password123",
     });
 
-    expect(result).toHaveProperty("accessToken");
-    expect(typeof result.accessToken).toBe("string");
+    expect(result).toEqual({ accessToken: "fake-jwt-token" });
   });
 
   it("should throw if user does not exist", async () => {
