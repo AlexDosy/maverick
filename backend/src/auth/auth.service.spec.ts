@@ -1,6 +1,7 @@
 import { Test } from "@nestjs/testing";
 import { AuthService } from "./auth.service";
 import { PrismaService } from "../prisma/prisma.service";
+import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 
 describe("AuthService", () => {
@@ -20,7 +21,7 @@ describe("AuthService", () => {
           },
         },
         {
-          provide: "JwtService",
+          provide: JwtService,
           useValue: {
             signAsync: jest.fn().mockResolvedValue("fake-jwt-token"),
           },
