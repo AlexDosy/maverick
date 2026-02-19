@@ -1,8 +1,10 @@
 import {
   Controller,
   Post,
+  Get,
   Body,
   UseGuards,
+  Req,
 } from "@nestjs/common";
 import { LearningService } from "./learning.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
@@ -16,6 +18,13 @@ import { Role } from "../rbac/roles.enum";
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class LearningController {
   constructor(private readonly learningService: LearningService) {}
+  @Get("admin-check")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  adminCheck(@Req() req: any) {
+    console.log(req.user);
+    return { ok: true };
+  }
 
   @Post("courses")
   @Roles(Role.ADMIN, Role.INSTRUCTOR)
