@@ -4,6 +4,8 @@ model User {
   password  String
   role      Role
   createdAt DateTime @default(now())
+
+  refreshTokenHash String? 
   
   // relations
   quizAttempts QuizAttempt[]
