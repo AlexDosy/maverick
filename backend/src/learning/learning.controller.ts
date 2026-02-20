@@ -5,6 +5,7 @@ import {
   Body,
   UseGuards,
   Req,
+  Query,
 } from "@nestjs/common";
 import { LearningService } from "./learning.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
@@ -13,6 +14,7 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { RolesGuard } from "../rbac/guard/roles.guard";
 import { Roles } from "../rbac/decorators/roles.decorator";
 import { Role } from "../rbac/roles.enum";
+import { ListCoursesDto } from "./dto/list-courses.dto";
 
 @Controller("learning")
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -37,4 +39,10 @@ export class LearningController {
   createQuiz(@Body() dto: CreateQuizDto) {
     return this.learningService.createQuiz(dto);
   }
+
+  @Get('courses')
+  getCourses(@Query() query: ListCoursesDto) {
+    return this.learningService.getCourses(query);
+}
+
 }

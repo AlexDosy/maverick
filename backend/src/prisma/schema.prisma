@@ -23,6 +23,7 @@ model Course {
   id      String   @id @default(uuid())
   title   String
   lessons Lesson[]
+  createdAt   DateTime @default(now()) 
 }
 
 model Lesson {
