@@ -72,7 +72,7 @@ model Booking {
   studentId    String
   startTime    DateTime
   endTime      DateTime
-  status       BookingStatus
+  status       BookingStatus @default(REQUESTED)
   createdAt    DateTime      @default(now())
 
   instructor User @relation("InstructorBookings", fields: [instructorId], references: [id])
@@ -82,6 +82,8 @@ model Booking {
 enum BookingStatus {
   REQUESTED
   APPROVED
+  COMPLETED 
+  CANCELLED
 }
 
 datasource db {
